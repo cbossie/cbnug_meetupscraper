@@ -4,7 +4,6 @@ const jquery = require('jquery');
 const lo = require('lodash');
 const df = require('dateformat');
 
-
 async function scrapeItems(url, selector, map){
     if(!url || !map){
         return [];

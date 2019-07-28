@@ -13,7 +13,7 @@ class cbnug {
     }
 
 
-    async performUpdate(table, url, dataFunction, idName) {
+    async performUpdate(table, url, dataFunction, idName, newItemGetsUuid = false) {
         let dy = new db(this.config.region, table);
         let itemData = await dataFunction(url);
         let allData = await dy.getAll();       
@@ -32,6 +32,10 @@ class cbnug {
                 console.log(`Found item ${existingItem[idName]}... updating.`);
                 item = Object.assign(item, existingItem);
             }
+            
+            if(newItemGetsUuid && !item.itemIdentifier){
+                item.itemIdentifier = uuid();
+             }
             await dy.putItem(item);
         });
     }
@@ -43,7 +47,7 @@ class cbnug {
     }
 
     async updateSponsors(table, url){
-        await this.performUpdate(table, url, fun.scraper.scrapeSponsors, 'name');
+        await this.performUpdate(table, url, fun.scraper.scrapeSponsors, 'name', true);
 
     }
 
