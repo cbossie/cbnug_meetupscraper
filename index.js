@@ -1,10 +1,10 @@
-const cbnug = require('./cbnug/cbnug');
+const cbnug = require('./handler');
 
 async function main(){
     
-   let cb = new cbnug.cbnug({});
-   await cb.updateSponsors('cbnug-sponsors-dev', 'https://www.meetup.com/CascoBayNUG/sponsors/');
-await cb.updateEvents('cbnug-events-dev', 'https://www.meetup.com/awspug/events/');
+
+   await cbnug.updateSponsors('cbnug-sponsors-dev', 'https://www.meetup.com/CascoBayNUG/sponsors/');
+
 
 
 
