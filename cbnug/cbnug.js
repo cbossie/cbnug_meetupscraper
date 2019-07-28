@@ -12,9 +12,58 @@ class cbnug {
         }, config)
     }
 
+
+    async performUpdate(table, url, dataFunction, idName) {
+        let dy = new db(this.config.region, table);
+        let itemData = await dataFunction(url);
+        let allData = await dy.getAll();       
+
+        await async.forEach(allData.Items,async item => {
+            if(!lo.some(itemData, i => i[idName] == item[idName])){
+            await dy.delete(item[idName]);
+                console.log(`Deleted item ${item.name}`);
+            }
+        });
+
+        await async.forEach(itemData, async item => {
+            let existingItem = lo.find(allData.Items, i => i[idName] == item[idName]);
+            if(existingItem)
+            {
+                console.log(`Found item ${existingItem[idName]}... updating.`);
+                item = Object.assign(item, existingItem);
+            }
+            await dy.putItem(item);
+        });
+    }
+
+
+
     async updateEvents(table, url){
+       let dy = new db(this.config.region, table);
         let eventData = await fun.scraper.scrapeEvents(url);
-        let eventData2 = await fun.scraper.scrapeEvents2(url);
+
+        let allData = await dy.getAll();
+        // Delete items not in the table
+
+        await async.forEach(allData.Items,async item => {
+            if(!lo.some(eventData, i => i.id == item.id)){
+            await dy.delete(item.id);
+
+                console.log(`Deleted item ${item.name}`);
+            }
+        });
+
+        await async.forEach(eventData, async item => {
+            let existingItem = lo.find(allData.Items, i => i.id == item.id);
+            if(existingItem)
+            {
+                console.log(`Found item ${existingItem.id}... updating.`);
+                item = Object.assign(item, existingItem);
+            }
+            await dy.putItem(item);
+        });
+
+        
     }
 
     async updateSponsors(table, url){

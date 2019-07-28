@@ -4,7 +4,7 @@ async function main(){
     
    let cb = new cbnug.cbnug({});
    await cb.updateSponsors('cbnug-sponsors-dev', 'https://www.meetup.com/CascoBayNUG/sponsors/');
-await cb.updateEvents('test', 'https://www.meetup.com/awspug/events/');
+await cb.updateEvents('cbnug-events-dev', 'https://www.meetup.com/awspug/events/');
 
 
 
