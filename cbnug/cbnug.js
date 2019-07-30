@@ -1,8 +1,10 @@
 const fun = require('../scraper/scraper.js');
 const db = require('../aws/dynamodb').DynamoDB;
+const S3 = require('../aws/s3').S3;
 const lo = require('lodash');
 const uuid = require('uuid/v1');
 const async = require('async');
+const axios = require('axios');
 
 class cbnug {
 
@@ -10,6 +12,27 @@ class cbnug {
         this.config = Object.assign({
             region: 'us-east-1'
         }, config)
+    }
+
+    async uploadImage(bucket, url, identifier) {
+        let s3 = new S3(bucket);
+        let extension = lo.last(lo.split(url, '.'));
+        let fileName = `${identifier}.${extension}`;
+        if(await s3.objectExists(fileName)){
+            return;
+        }
+        
+        let img = await axios({
+            method:'get',
+            url:url,
+            responseType:'arraybuffer'
+        });
+        let contentType = (extension === 'jpeg' ? 'image/jpeg' : 'application/octet-stream');
+
+        let binary = Buffer.from(img.data);
+
+        s3.putObject(fileName, binary, contentType);
+
     }
 
 
@@ -30,7 +53,7 @@ class cbnug {
             if(existingItem)
             {
                 console.log(`Found item ${existingItem[idName]}... updating.`);
-                item = Object.assign(item, existingItem);
+                item = Object.assign(existingItem, item);
             }
             
             if(newItemGetsUuid && !item.itemIdentifier){

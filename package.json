@@ -11,6 +11,7 @@
   "dependencies": {
     "async": "^3.1.0",
     "aws-sdk": "^2.496.0",
+    "axios": "^0.19.0",
     "date-and-time": "^0.8.1",
     "dateformat": "^3.0.3",
     "http": "0.0.0",
