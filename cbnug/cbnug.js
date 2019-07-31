@@ -14,8 +14,9 @@ class cbnug {
         }, config)
     }
 
-    async uploadImage(bucket, url, identifier) {
+    async uploadImage(bucket, url, identifier, name, table) {
         let s3 = new S3(bucket);
+        let dy = new db(new db(this.config.region, table));
         let extension = lo.last(lo.split(url, '.'));
         let fileName = `${identifier}.${extension}`;
         if(await s3.objectExists(fileName)){
@@ -30,9 +31,14 @@ class cbnug {
         let contentType = (extension === 'jpeg' ? 'image/jpeg' : 'application/octet-stream');
 
         let binary = Buffer.from(img.data);
-
-        s3.putObject(fileName, binary, contentType);
-
+        try
+        {
+            console.log(`Attempting to put object ${fileName} into bucket ${bucket}`);
+            await s3.putObject(fileName, binary, contentType);
+        }
+        catch(err) {
+            console.log(`Error uploading image ${fileName} to ${bucket}`);
+        }
     }
 
 
