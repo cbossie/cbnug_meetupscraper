@@ -16,8 +16,16 @@ const processImage = async(event, context) => {
             let img = lo(rec, ['dynamodb', 'NewImage', 'img','S']);
             let name = lo(rec, ['dynamodb', 'NewImage', 'name','S']);
             if(img && id){
-                console.log(`Uploading image ${img} with id=${id} to bucket ${bucket}`);
-                await cb.uploadImage(bucket, img, id, name, this.table);
+                try {
+                    console.log(`Uploading image ${img} with id=${id} to bucket ${bucket}`);
+                    await cb.uploadImage(bucket, img, id, name, table);
+                
+                } catch(err)
+                {
+                    console.log(`Error uploading image ${img} with id=${id} to bucket ${bucket}`);
+                    console.log(err);
+                }
+
             }
         });
     }

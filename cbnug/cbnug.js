@@ -20,6 +20,7 @@ class cbnug {
         let extension = lo.last(lo.split(url, '.'));
         let fileName = `${identifier}.${extension}`;
         if(await s3.objectExists(fileName)){
+            console.log(`Item ${fileName} already exists in s3.`);
             return;
         }
         
