@@ -71,6 +71,13 @@ class cbnug {
     }
 
 
+    async updateGroup(table, url, groupName){
+        await this.performUpdate(table, url, async u => 
+            {
+                let item = await fun.scraper.scrapeGroup(u, groupName);
+                return item;
+            } ,'name')
+    }
 
     async updateEvents(table, url){
         await this.performUpdate(table, url, fun.scraper.scrapeEvents, 'id');

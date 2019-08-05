@@ -30,6 +30,19 @@ async function scrapeEvents(url){
     })
 }
 
+async function scrapeGroup(url, groupName){
+    if(!url){
+        return null;
+    }
+    return await scrapeItems(url, '.group-description:last', e => {
+        let el = lo.last(e);
+        return {
+            name: groupName,
+            descriptionHtml: el.innerHTML,
+            descriptionText: el.textContent
+        }
+    });
+}
 
 async function scrapeSponsors(url){
 
@@ -47,4 +60,4 @@ async function scrapeSponsors(url){
 }
 
 
-exports.scraper = { scrapeSponsors, scrapeEvents };
+exports.scraper = { scrapeSponsors, scrapeEvents, scrapeGroup };

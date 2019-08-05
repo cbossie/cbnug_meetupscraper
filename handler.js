@@ -2,6 +2,7 @@ const cbnug = require("./cbnug/cbnug").cbnug;
 const url = process.env.URL;
 const table = process.env.TABLE;
 const bucket = process.env.BUCKET;
+const group = process.env.GROUP_NAME;
 const async = require("async");
 const lo = require('lodash').get;
 
@@ -43,6 +44,14 @@ const updateEvents = async (event, context) => {
     return 0;
 };
 
-exports.updateSponsors = updateSponsors;
-exports.updateEvents = updateEvents;
-exports.processImage = processImage;
+const updateGroup = async(event, context) => {
+    let cb = new cbnug({});
+    await cb.updateGroup(table, url, group);
+    return 0;
+
+};
+
+module.exports.updateSponsors = updateSponsors;
+module.exports.updateEvents = updateEvents;
+module.exports.processImage = processImage;
+module.exports.updateGroup = updateGroup;
