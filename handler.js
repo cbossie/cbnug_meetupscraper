@@ -1,4 +1,4 @@
-const cbnug = require("./cbnug/cbnug").cbnug;
+const cbnug = require("./src/cbnug").cbnug;
 const url = process.env.URL;
 const table = process.env.TABLE;
 const bucket = process.env.BUCKET;

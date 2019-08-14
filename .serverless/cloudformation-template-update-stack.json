@@ -1,0 +1,10 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {},
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": "cbnug-deploy"
+    }
+  }
+}
