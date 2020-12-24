@@ -11,7 +11,7 @@
     "async": "^3.1.0",
     "aws-sdk": "^2.503.0",
     "axios": "^0.19.0",
-    "date-and-time": "^0.8.1",
+    "date-and-time": "^0.14.2",
     "dateformat": "^3.0.3",
     "http": "0.0.0",
     "jquery": "^3.4.1",
